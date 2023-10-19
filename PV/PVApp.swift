@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct PVApp: App {
     @StateObject private var locations = Locations()
-
+    
     var body: some Scene {
         WindowGroup {
             TabView {
@@ -20,9 +20,15 @@ struct PVApp: App {
                 .tabItem {
                     Label("Contacts", systemImage: "person.crop.circle.fill")
                 }
+                NavigationView {
+                    WorldView()
+                }
+                .tabItem {
+                    Label("Map", systemImage: "map.fill")
+                }
             }
+            .environmentObject(locations)
         }
-        .environmentObject(locations)
     }
 }
 
