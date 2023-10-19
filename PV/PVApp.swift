@@ -9,9 +9,21 @@ import SwiftUI
 
 @main
 struct PVApp: App {
+    @StateObject private var locations = Locations()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TabView {
+                NavigationView {
+                    ContentView(locations: locations)
+                }
+                .tabItem {
+                    Label("Contacts", systemImage: "person.crop.circle.fill")
+                }
+            }
         }
+        .environmentObject(locations)
     }
 }
+
+
