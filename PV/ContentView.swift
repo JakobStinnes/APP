@@ -122,8 +122,7 @@ struct ContactDetailsView: View {
                 // Actionable buttons for calling, mailing, and directions
                 HStack(spacing: 40) {
                     Button(action: {
-                        // Handle call action
-                        // Typically: "tel:\(location.phoneNumber)"
+                        callNumber(telefon: location.telefon)
                     }) {
                         VStack {
                             Image(systemName: "phone.fill")
@@ -142,8 +141,7 @@ struct ContactDetailsView: View {
                     }
 
                     Button(action: {
-                        // Handle direction action
-                        // Typically: Use a map service with the address: "\(location.strasse) \(location.hausnummer)"
+                        openMaps(for: location)
                     }) {
                         VStack {
                             Image(systemName: "arrow.right.arrow.left.circle.fill")
@@ -175,6 +173,11 @@ struct ContactDetailsView: View {
                          } icon: {
                              Image(systemName: "house.fill")
                          }
+                        Label {
+                            Text(location.telefon)
+                         } icon: {
+                             Image(systemName: "phone.fill")
+                         }
                     }
                     .font(.headline)
                     .padding(.vertical, 5)
@@ -203,6 +206,18 @@ struct ContactDetailsView: View {
     var textColor: Color {
         return colorScheme == .dark ? Color.white : Color.primary
     }
+    func openMaps(for location: Location) {
+        let addressString = "\(location.straße) \(location.hausnummer), \(location.plz) \(location.stadt)"
+        let encodedAddress = addressString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        if let directionsURL = URL(string: "http://maps.apple.com/?address=\(encodedAddress)") {
+            UIApplication.shared.open(directionsURL, options: [:], completionHandler: nil)
+        }
+    }
+    func callNumber(telefon: String) {
+            if let phoneCallURL = URL(string: "tel://\(telefon)"), UIApplication.shared.canOpenURL(phoneCallURL) {
+                UIApplication.shared.open(phoneCallURL, options: [:], completionHandler: nil)
+            }
+        }
 }
 
 struct ContentView_Previews: PreviewProvider {

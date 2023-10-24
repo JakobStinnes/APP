@@ -16,6 +16,7 @@ struct Location: Codable, Identifiable {
     let plz: String
     let stadt: String
     let email: String
+    let telefon: String
     let latitude: Double
     let longitude: Double
     let projektstatus: String
@@ -29,6 +30,7 @@ struct Location: Codable, Identifiable {
         case plz
         case stadt
         case email
+        case telefon
         case latitude
         case longitude
         case projektstatus
