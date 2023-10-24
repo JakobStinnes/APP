@@ -42,7 +42,8 @@ struct WorldView: View {
             .padding(.top, 60)
             
             // Map
-            Map(coordinateRegion: $region, annotationItems: locations.places) { location in
+            Map(coordinateRegion: $region, annotationItems: Array(locations.places.prefix(10))
+) { location in
                 MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)) {
                     NavigationLink(destination: ContactDetailsView(location: location)) {  // Navigate to the contact's details
                         Image("logo")

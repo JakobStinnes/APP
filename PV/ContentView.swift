@@ -122,7 +122,7 @@ struct ContactDetailsView: View {
                 // Actionable buttons for calling, mailing, and directions
                 HStack(spacing: 40) {
                     Button(action: {
-                        callNumber(telefon: location.telefon)
+                       
                     }) {
                         VStack {
                             Image(systemName: "phone.fill")
@@ -173,11 +173,7 @@ struct ContactDetailsView: View {
                          } icon: {
                              Image(systemName: "house.fill")
                          }
-                        Label {
-                            Text(location.telefon)
-                         } icon: {
-                             Image(systemName: "phone.fill")
-                         }
+                       
                     }
                     .font(.headline)
                     .padding(.vertical, 5)
