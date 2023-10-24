@@ -10,10 +10,8 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var locations: Locations
     @State private var searchText: String = ""
-    
-    private let mainColor: Color = .green
-    private let secondaryColor: Color = Color(.secondarySystemBackground)
-    
+    @Environment(\.colorScheme) var colorScheme
+
     var filteredLocations: [Location] {
         if searchText.isEmpty {
             return locations.places
@@ -21,65 +19,83 @@ struct ContentView: View {
             return locations.places.filter { $0.name.contains(searchText) || $0.vorname.contains(searchText) }
         }
     }
-    
+
     var body: some View {
-        NavigationView {
-            VStack(spacing: 30) {
-                // Logo, Title and "+" button
+        VStack(spacing: 30) {
+            // Top bar with Logo and Title
+            ZStack {
+                Text("Contacts")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                    .frame(maxWidth: .infinity)
+                    .foregroundColor(Color.primary)
+
                 HStack {
                     Image("logo")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 30, height: 30)
                     Spacer()
-                    Text("Contacts")
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                        .foregroundColor(mainColor)
-                    Spacer()
                     Button(action: {
                         // Implement your add contact action here
                     }) {
                         Image(systemName: "plus")
-                            .foregroundColor(mainColor)
+                            .foregroundColor(Color.primary)
                     }
-                    .padding(.trailing, 10)
                 }
                 .padding(.horizontal, 30)
-                .padding(.top, 60) // Additional top padding for the Logo, Title, and "+" button
-                
-                // Contacts list
-                ScrollView {
-                    // Search bar
-                    TextField("Search by name...", text: $searchText)
-                        .padding(10)
-                        .background(secondaryColor)
-                        .cornerRadius(10)
-                        .padding(.horizontal, 15)
-                        .padding(.bottom, 5)  // Padding below the search bar
-
-                    LazyVStack(spacing: 0) { // Minimal spacing for a tighter look
-                        ForEach(filteredLocations) { location in
-                            NavigationLink(destination: ContactDetailsView(location: location)) {
-                                HStack {
-                                    Text("\(location.vorname) \(location.name)")
-                                        .font(.system(size: 17))  // Default font for Apple contacts
-                                        .foregroundColor(.primary)  // Default text color
-                                    Spacer()
-                                }
-                                .padding(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))  // Apple-like padding
-                            }
-                            Divider()  // Separator between contact items
-                        }
-                    }
-                    .background(Color.white)  // Set background to white for the list
-                }
-                .background(Color.white)  // Set background to white for the ScrollView
             }
-            .padding(.top, 10) // Shift content downwards
-            .edgesIgnoringSafeArea(.top)
-            .navigationBarHidden(true)
+            .padding(.top, 60)
+
+            // Contacts list
+            ScrollView {
+                // Search bar
+                TextField("Search by name...", text: $searchText)
+                    .padding(10)
+                    .background(searchBarBackgroundColor)
+                    .cornerRadius(10)
+                    .padding(.horizontal, 15)
+                    .padding(.bottom, 5)
+
+                LazyVStack(spacing: 0) {
+                    ForEach(filteredLocations) { location in
+                        NavigationLink(destination: ContactDetailsView(location: location)) {
+                            HStack {
+                                Text("\(location.vorname) \(location.name)")
+                                    .font(.system(size: 17))
+                                    .foregroundColor(Color.primary)
+                                Spacer()
+                            }
+                            .padding(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
+                        }
+                        Divider()
+                    }
+                }
+                .background(listBackgroundColor)
+            }
+            .background(scrollViewBackgroundColor)
         }
+        .background(backgroundColor)
+        .padding(.top, 10)
+        .edgesIgnoringSafeArea(.top)
+        .navigationBarHidden(true)
+    }
+
+    // Define background colors based on the color scheme
+    var backgroundColor: Color {
+        return colorScheme == .dark ? Color(UIColor.systemBackground) : Color.white
+    }
+
+    var searchBarBackgroundColor: Color {
+        return colorScheme == .dark ? Color(UIColor.systemGray6) : Color(UIColor.systemGray6)
+    }
+
+    var listBackgroundColor: Color {
+        return colorScheme == .dark ? Color(UIColor.systemGroupedBackground) : Color.white
+    }
+
+    var scrollViewBackgroundColor: Color {
+        return colorScheme == .dark ? Color(UIColor.systemGroupedBackground) : Color.white
     }
 }
 
@@ -87,9 +103,12 @@ struct ContentView: View {
 
 
 
+
+
 struct ContactDetailsView: View {
     let location: Location
-    
+    @Environment(\.colorScheme) var colorScheme
+
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
@@ -98,7 +117,8 @@ struct ContactDetailsView: View {
                     .font(.largeTitle)
                     .fontWeight(.medium)
                     .padding(.top, 20)
-                
+                    .foregroundColor(textColor)
+
                 // Actionable buttons for calling, mailing, and directions
                 HStack(spacing: 40) {
                     Button(action: {
@@ -133,6 +153,7 @@ struct ContactDetailsView: View {
                 }
                 .font(.headline)
                 .padding()
+                .foregroundColor(textColor)
 
                 // Contact's details as in Apple Contacts
                 VStack(alignment: .leading, spacing: 10) {
@@ -158,14 +179,29 @@ struct ContactDetailsView: View {
                     .font(.headline)
                     .padding(.vertical, 5)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(Color.gray.opacity(0.1))
-                    
+                    .background(backgroundViewColor)
                 }
             }
             .padding()
         }
-        .background(Color.white)
+        .background(scrollViewBackgroundColor)
         .navigationBarTitle(location.name, displayMode: .inline)
+    }
+
+    var backgroundColor: Color {
+        return colorScheme == .dark ? Color(UIColor.systemBackground) : Color.white
+    }
+
+    var backgroundViewColor: Color {
+        return colorScheme == .dark ? Color.gray.opacity(0.1) : Color.gray.opacity(0.3)
+    }
+
+    var scrollViewBackgroundColor: Color {
+        return colorScheme == .dark ? Color(UIColor.systemGroupedBackground) : Color.white
+    }
+
+    var textColor: Color {
+        return colorScheme == .dark ? Color.white : Color.primary
     }
 }
 

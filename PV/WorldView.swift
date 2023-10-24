@@ -27,8 +27,8 @@ struct WorldView: View {
                 Text("Map")
                     .font(.title2)
                     .fontWeight(.semibold)
-                    .foregroundColor(mainColor)
-                    .frame(maxWidth: .infinity)  // center on the screen
+                    .frame(maxWidth: .infinity)
+                    .foregroundColor(Color.primary)  // center on the screen
                 
                 HStack {
                     Image("logo")
