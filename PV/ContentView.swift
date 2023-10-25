@@ -102,10 +102,95 @@ struct ContentView: View {
 }
 
 
+func convertDate(from dateString: String) -> String? {
+    let inputFormatter = DateFormatter()
+    inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSxxx"
+    inputFormatter.locale = Locale(identifier: "en_US_POSIX")
+    
+    guard let date = inputFormatter.date(from: dateString) else { return nil }
+
+    let outputFormatter = DateFormatter()
+    outputFormatter.dateFormat = "dd.MM.yy, HH:mm 'h'"
+
+    return outputFormatter.string(from: date)
+}
 
 
+struct CommentSection: View {
+    let comments: [Comment]
+    @State private var isExpanded: Bool = false
+    @Environment(\.colorScheme) var colorScheme
 
+    var shadowColor: Color {
+        switch colorScheme {
+        case .dark:
+            return Color.white.opacity(0.05)
+        default:
+            return Color.black.opacity(0.07)
+        }
+    }
+    
+    let authorDictionary: [Int: String] = [
+        1: "Jakob Stinnes",
+        2: "Jakob Moecke",
+    ]
 
+    var body: some View {
+            VStack(alignment: .leading) {
+                DisclosureGroup(
+                    isExpanded: $isExpanded,
+                    content: {
+                        ForEach(comments) { comment in
+                            VStack(alignment: .leading, spacing: 8) {
+                                if let authorName = authorDictionary[comment.author] {
+                                    Text(authorName)
+                                        .font(.subheadline)
+                                        .fontWeight(.bold)  // Bold for author names
+                                        .foregroundColor(Color.blue)
+                                }
+                                
+                                Text(comment.content)
+                                
+                                HStack {
+                                    Spacer()
+                                    if let formattedDate = convertDate(from: comment.created) {
+                                        Text(formattedDate)
+                                            .font(.subheadline)
+                                            .foregroundColor(.gray)
+                                            .fontWeight(.regular)  // Regular for dates
+                                    }
+                                }
+                            }
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 15).fill(Color(.systemBackground)).shadow(color: shadowColor, radius: 5, x: 0, y: 2))
+                            .padding(.vertical, 4)
+                        }
+                    },
+                    label: {
+                        HStack {
+                            Text("Comments (\(comments.count))")
+                                .font(.headline)
+                            Spacer()
+                            Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                                .resizable()
+                                .frame(width: 13, height: 7)
+                                .foregroundColor(.secondary)
+                        }
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 15).fill(Color(.systemBackground)).shadow(color: shadowColor, radius: 5, x: 0, y: 2))  // Made corner radius consistent
+                    }
+                )
+            }
+            .background(Color(.systemBackground))
+            .cornerRadius(15)
+            .padding()
+            .onTapGesture {
+                withAnimation {
+                    isExpanded.toggle()
+                }
+            }
+        }
+    }
 
 struct ContactDetailsView: View {
     let location: Location
@@ -198,9 +283,14 @@ struct ContactDetailsView: View {
                             .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 2)
                     )
                 }
-                .padding(.bottom, 20)
+                .padding(.bottom, 10)
+                CommentSection(comments: location.comments)
+                            .background(Color(.systemBackground))
+                            .cornerRadius(10)
+                            .shadow(color: shadowColor, radius: 5, x: 0, y: 2)
+                            .padding(.bottom, 20)
             }
-            .padding()
+            .padding(10)
         }
         .navigationBarTitle(location.name, displayMode: .inline)
     }

@@ -20,6 +20,8 @@ struct Location: Codable, Identifiable {
     let latitude: Double
     let longitude: Double
     let projektstatus: String
+    let comments: [Comment]
+    
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -34,5 +36,13 @@ struct Location: Codable, Identifiable {
         case latitude
         case longitude
         case projektstatus
+        case comments
     }
+}
+
+struct Comment: Codable, Identifiable {
+    let id: Int
+    let content: String
+    let author: Int
+    let created: String
 }
