@@ -115,9 +115,9 @@ struct ContactDetailsView: View {
     var shadowColor: Color {
         switch colorScheme {
         case .dark:
-            return Color.white.opacity(0.1)
+            return Color.white.opacity(0.05)
         default:
-            return Color.black.opacity(0.1)
+            return Color.black.opacity(0.07)
         }
     }
 
@@ -172,11 +172,11 @@ struct ContactDetailsView: View {
 
                 // Contact's details
                 Group {
+                    InformationRow(icon: "house.fill", text: "\(location.straße) \(location.hausnummer)")
+                    InformationRow(icon: "map.fill", text: "\(location.plz) \(location.stadt)")
+                    InformationRow(icon: "phone.fill", text: location.telefon)
                     InformationRow(icon: "envelope.fill", text: location.email)
                     InformationRow(icon: "doc.plaintext.fill", text: location.projektstatus)
-                    InformationRow(icon: "house.fill", text: "\(location.straße) \(location.hausnummer)")
-                    InformationRow(icon: "phone.fill", text: location.telefon)
-                    InformationRow(icon: "map.fill", text: "\(location.plz) \(location.stadt)")
                 }
                 .background(Color(.systemBackground))
                 .cornerRadius(10)
