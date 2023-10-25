@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import MapKit
+
 
 struct ContentView: View {
     @ObservedObject var locations: Locations
@@ -108,6 +110,24 @@ struct ContentView: View {
 struct ContactDetailsView: View {
     let location: Location
     @Environment(\.colorScheme) var colorScheme
+    @State var mapRegion: MKCoordinateRegion
+    
+    var shadowColor: Color {
+        switch colorScheme {
+        case .dark:
+            return Color.white.opacity(0.1)
+        default:
+            return Color.black.opacity(0.1)
+        }
+    }
+
+    init(location: Location) {
+        self.location = location
+        _mapRegion = State(initialValue: MKCoordinateRegion(
+            center: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude),
+            span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05) // Adjust span as needed
+        ))
+    }
 
     var body: some View {
         ScrollView {
@@ -117,12 +137,11 @@ struct ContactDetailsView: View {
                     .font(.largeTitle)
                     .fontWeight(.medium)
                     .padding(.top, 20)
-                    .foregroundColor(textColor)
 
                 // Actionable buttons for calling, mailing, and directions
                 HStack(spacing: 40) {
                     Button(action: {
-                       
+                        callNumber(telefon: location.telefon)
                     }) {
                         VStack {
                             Image(systemName: "phone.fill")
@@ -131,8 +150,7 @@ struct ContactDetailsView: View {
                     }
 
                     Button(action: {
-                        // Handle mail action
-                        // Typically: "mailto:\(location.email)"
+                        sendEmail(email: location.email)
                     }) {
                         VStack {
                             Image(systemName: "envelope.fill")
@@ -150,41 +168,58 @@ struct ContactDetailsView: View {
                     }
                 }
                 .font(.headline)
-                .padding()
-                .foregroundColor(textColor)
+                .padding(.bottom, 10)
 
-                // Contact's details as in Apple Contacts
-                VStack(alignment: .leading, spacing: 10) {
-                    Group {
-                        Label {
-                            Text(location.email)
-                        } icon: {
-                            Image(systemName: "envelope.fill")
-                        }
-                        
-                        Label {
-                            Text(location.projektstatus)
-                        } icon: {
-                            Image(systemName: "doc.plaintext.fill")
-                        }
-
-                        Label {
-                             Text("\(location.straße) \(location.hausnummer)")
-                         } icon: {
-                             Image(systemName: "house.fill")
-                         }
-                       
-                    }
-                    .font(.headline)
-                    .padding(.vertical, 5)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(backgroundViewColor)
+                // Contact's details
+                Group {
+                    InformationRow(icon: "envelope.fill", text: location.email)
+                    InformationRow(icon: "doc.plaintext.fill", text: location.projektstatus)
+                    InformationRow(icon: "house.fill", text: "\(location.straße) \(location.hausnummer)")
+                    InformationRow(icon: "phone.fill", text: location.telefon)
+                    InformationRow(icon: "map.fill", text: "\(location.plz) \(location.stadt)")
                 }
+                .background(Color(.systemBackground))
+                .cornerRadius(10)
+                .shadow(color: shadowColor, radius: 5, x: 0, y: 2)
+                .padding(.bottom, 10)
+
+                Button(action: {
+                    openMaps(for: location)
+                }) {
+                    Map(coordinateRegion: $mapRegion, annotationItems: [location]) { location in
+                        MapPin(coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude), tint: .blue)
+                    }
+                    .frame(height: 150)
+                    .cornerRadius(10)
+                    .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+                            .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 2)
+                    )
+                }
+                .padding(.bottom, 20)
             }
             .padding()
         }
-        .background(scrollViewBackgroundColor)
         .navigationBarTitle(location.name, displayMode: .inline)
+    }
+
+
+
+
+
+    // Extracted for reuse
+    func detailItem(title: String, icon: String) -> some View {
+        HStack {
+            Image(systemName: icon)
+            Text(title)
+        }
+        .padding()
+        .background(backgroundViewColor)
+        .cornerRadius(10)
+        .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
+        .frame(maxWidth: .infinity, alignment: .leading) // Makes it full width
     }
 
     var backgroundColor: Color {
@@ -214,7 +249,31 @@ struct ContactDetailsView: View {
                 UIApplication.shared.open(phoneCallURL, options: [:], completionHandler: nil)
             }
         }
+    func sendEmail(email: String) {
+        if let emailURL = URL(string: "mailto:\(email)") {
+            if UIApplication.shared.canOpenURL(emailURL) {
+                UIApplication.shared.open(emailURL)
+            }
+        }
+    }
 }
+
+struct InformationRow: View {
+    let icon: String
+    let text: String
+
+    var body: some View {
+        HStack {
+            Image(systemName: icon)
+                .padding(.leading, 10)
+            Text(text)
+                .padding(.trailing, 10)
+            Spacer()
+        }
+        .padding(.vertical, 5)  // Reduced vertical padding
+    }
+}
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
