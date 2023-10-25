@@ -131,8 +131,7 @@ struct ContactDetailsView: View {
                     }
 
                     Button(action: {
-                        // Handle mail action
-                        // Typically: "mailto:\(location.email)"
+                        sendEmail(email: location.email)
                     }) {
                         VStack {
                             Image(systemName: "envelope.fill")
@@ -218,6 +217,13 @@ struct ContactDetailsView: View {
                 UIApplication.shared.open(phoneCallURL, options: [:], completionHandler: nil)
             }
         }
+    func sendEmail(email: String) {
+        if let emailURL = URL(string: "mailto:\(email)") {
+            if UIApplication.shared.canOpenURL(emailURL) {
+                UIApplication.shared.open(emailURL)
+            }
+        }
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
