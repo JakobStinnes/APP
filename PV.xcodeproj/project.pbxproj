@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		23178F862AE1D6B60052F97F /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23178F852AE1D6B60052F97F /* MapView.swift */; };
+		233166182AEA9EF900AC7BC1 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233166172AEA9EF900AC7BC1 /* AppTheme.swift */; };
 		233838712AE1587300751FDD /* PVApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233838702AE1587300751FDD /* PVApp.swift */; };
 		233838732AE1587300751FDD /* ContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233838722AE1587300751FDD /* ContactView.swift */; };
 		233838752AE1587400751FDD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 233838742AE1587400751FDD /* Assets.xcassets */; };
@@ -39,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		23178F852AE1D6B60052F97F /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		233166172AEA9EF900AC7BC1 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		2338386D2AE1587300751FDD /* PV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		233838702AE1587300751FDD /* PVApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVApp.swift; sourceTree = "<group>"; };
 		233838722AE1587300751FDD /* ContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactView.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				2338389C2AE16DD500751FDD /* Locations.swift */,
 				233838742AE1587400751FDD /* Assets.xcassets */,
 				2338389E2AE16E0300751FDD /* Location.swift */,
+				233166172AEA9EF900AC7BC1 /* AppTheme.swift */,
 				233838762AE1587400751FDD /* Preview Content */,
 			);
 			path = PV;
@@ -269,6 +272,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				233166182AEA9EF900AC7BC1 /* AppTheme.swift in Sources */,
 				2346483F2AEA604D00F8910B /* LoginView.swift in Sources */,
 				2338389D2AE16DD500751FDD /* Locations.swift in Sources */,
 				233838732AE1587300751FDD /* ContactView.swift in Sources */,

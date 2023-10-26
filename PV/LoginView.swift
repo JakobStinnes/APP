@@ -16,43 +16,43 @@ struct LoginView: View {
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 30) {
+            VStack(spacing: AppTheme.Padding.standard) {
                 // Top bar with Logo and Title
                 ZStack {
                     Text("Login")
-                        .font(.title2)
+                        .font(AppTheme.Fonts.title2)
                         .fontWeight(.semibold)
                         .frame(maxWidth: .infinity)
-                        .foregroundColor(Color.primary)  // center on the screen
+                        .foregroundColor(Color.primary)
 
                     HStack {
-                        Image("logo")
+                        Image(AppTheme.Icons.logo)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 30, height: 30)
                         Spacer()
                     }
-                    .padding(.horizontal, 30)
+                    .padding(.horizontal, AppTheme.Padding.large)
                 }
-                .padding(.top, 60)
+                .padding(.top, AppTheme.Padding.topLarge)
 
                 // Login Fields
-                VStack(spacing: 20) {
+                VStack(spacing: AppTheme.Padding.standard) {
                     TextField("Username", text: $username)
                         .padding()
-                        .background(Color(.systemGray6))
+                        .background(AppTheme.Colors.searchBarBackground(for: colorScheme))
                         .cornerRadius(8)
                         .autocapitalization(.none)
                         .keyboardType(.emailAddress)
 
                     SecureField("Password", text: $password)
                         .padding()
-                        .background(Color(.systemGray6))
+                        .background(AppTheme.Colors.searchBarBackground(for: colorScheme))
                         .cornerRadius(8)
 
                     TextField("OTP Token", text: $otpToken)
                         .padding()
-                        .background(Color(.systemGray6))
+                        .background(AppTheme.Colors.searchBarBackground(for: colorScheme))
                         .cornerRadius(8)
                         .keyboardType(.numberPad)
 
@@ -62,19 +62,21 @@ struct LoginView: View {
                         Text("Login")
                             .foregroundColor(.white)
                             .padding()
-                            .background(Color.blue)
+                            .background(AppTheme.Colors.buttonBlue(for: colorScheme))
                             .cornerRadius(8)
                     }
                 }
-                .padding(.horizontal, 30)
+                .padding(.horizontal, AppTheme.Padding.large)
 
                 Spacer()
             }
-            .background(Color(.systemBackground))
-            // Use the system background color which adapts to light/dark mode
+            .background(AppTheme.Colors.background(for: colorScheme))
         }
     }
 
+    @Environment(\.colorScheme) private var colorScheme
+
+    
     func loginUser() {
         let loginURL = URL(string: "http://192.168.178.86:8007/api/login/")!
         

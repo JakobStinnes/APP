@@ -18,49 +18,50 @@ struct MapView: View {
     
     let pinnedCoordinate = CLLocationCoordinate2D(latitude: 53.5500, longitude: 9.9937)
 
-    private let mainColor: Color = .green
-
     var body: some View {
-        VStack(spacing: 30) {
-            // Top bar with Logo and Title
-            ZStack {
-                Text("Map")
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                    .frame(maxWidth: .infinity)
-                    .foregroundColor(Color.primary)  // center on the screen
-                
-                HStack {
-                    Image("logo")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 30, height: 30)
-                    Spacer()
-                }
-                .padding(.horizontal, 30)
-            }
-            .padding(.top, 60)
-            
-            // Map
-            //Map(coordinateRegion: $region, annotationItems: locations.places) { location in
-            Map(coordinateRegion: $region, annotationItems: Array(locations.places.prefix(10))
-                ) { location in
-                MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)) {
-                    NavigationLink(destination: ContactDetailsView(location: location)) {  // Navigate to the contact's details
-                        Image("logo")
+        NavigationView {
+            VStack(spacing: AppTheme.Padding.standard) {
+                // Top bar with Logo and Title
+                ZStack {
+                    Text("Map")
+                        .font(AppTheme.Fonts.title2)
+                        .fontWeight(.semibold)
+                        .frame(maxWidth: .infinity)
+                        .foregroundColor(Color.primary)
+                    
+                    HStack {
+                        Image(AppTheme.Icons.logo)
                             .resizable()
-                            .cornerRadius(10)
-                            .frame(width: 40, height: 40)  // Adjust the frame dimensions as needed
-                            .shadow(radius: 3)
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30, height: 30)
+                        Spacer()
+                    }
+                    .padding(.horizontal, AppTheme.Padding.large)
+                }
+                .padding(.top, AppTheme.Padding.topLarge)
+                
+                // Map
+                Map(coordinateRegion: $region, annotationItems: Array(locations.places.prefix(10))) { location in
+                    MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)) {
+                        NavigationLink(destination: ContactDetailsView(location: location)) {
+                            Image(AppTheme.Icons.logo)
+                                .resizable()
+                                .cornerRadius(10)
+                                .frame(width: 40, height: 40)
+                                .shadow(radius: 3)
+                        }
                     }
                 }
+                Spacer()
             }
-            Spacer() // Pushes the Map to take the remaining space
+            .background(AppTheme.Colors.background(for: colorScheme))
+            .padding(.top, 10)
+            .edgesIgnoringSafeArea(.top)
+            .navigationBarHidden(true)
         }
-        .padding(.top, 10)
-        .edgesIgnoringSafeArea(.top)
-        .navigationBarHidden(true)
     }
+
+    @Environment(\.colorScheme) private var colorScheme
 }
 
 

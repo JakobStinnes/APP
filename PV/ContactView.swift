@@ -93,28 +93,13 @@ struct ContactView: View {
     }
 
     var listBackgroundColor: Color {
-        return colorScheme == .dark ? Color(UIColor.systemBackground) : Color.white
+        return colorScheme == .dark ? Color(UIColor.systemGroupedBackground) : Color.white
     }
 
     var scrollViewBackgroundColor: Color {
-        return colorScheme == .dark ? Color(UIColor.systemBackground) : Color.white
+        return colorScheme == .dark ? Color(UIColor.systemGroupedBackground) : Color.white
     }
 }
-
-
-func convertDate(from dateString: String) -> String? {
-    let inputFormatter = DateFormatter()
-    inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSxxx"
-    inputFormatter.locale = Locale(identifier: "en_US_POSIX")
-    
-    guard let date = inputFormatter.date(from: dateString) else { return nil }
-
-    let outputFormatter = DateFormatter()
-    outputFormatter.dateFormat = "dd.MM.yy, HH:mm 'h'"
-
-    return outputFormatter.string(from: date)
-}
-
 
 struct CommentSection: View {
     let comments: [Comment]
@@ -124,9 +109,9 @@ struct CommentSection: View {
     var shadowColor: Color {
         switch colorScheme {
         case .dark:
-            return Color.white.opacity(0.05)
+            return AppTheme.Colors.shadowColor(for: .dark)
         default:
-            return Color.black.opacity(0.07)
+            return AppTheme.Colors.shadowColor(for: .light)
         }
     }
     
@@ -141,47 +126,49 @@ struct CommentSection: View {
                     isExpanded: $isExpanded,
                     content: {
                         ForEach(comments) { comment in
-                            VStack(alignment: .leading, spacing: 8) {
+                            VStack(alignment: .leading, spacing: AppTheme.Padding.standard) {
                                 if let authorName = authorDictionary[comment.author] {
                                     Text(authorName)
-                                        .font(.subheadline)
-                                        .fontWeight(.bold)  // Bold for author names
-                                        .foregroundColor(Color.blue)
+                                        .font(AppTheme.Fonts.commentAuthor)
+                                        .foregroundColor(AppTheme.Colors.commentAuthorText)
+                                        .fontWeight(.bold)
+                                    
                                 }
                                 
                                 Text(comment.content)
+                                    .font(AppTheme.Fonts.commentContent)
+                                    .foregroundColor(AppTheme.Colors.commentContentText)
                                 
                                 HStack {
                                     Spacer()
-                                    if let formattedDate = convertDate(from: comment.created) {
+                                    if let formattedDate = AppTheme.convertDate(from: comment.created) {
                                         Text(formattedDate)
-                                            .font(.subheadline)
-                                            .foregroundColor(.gray)
-                                            .fontWeight(.regular)  // Regular for dates
+                                            .font(AppTheme.Fonts.commentDate)
+                                            .foregroundColor(AppTheme.Colors.commentDateText)
                                     }
                                 }
                             }
                             .padding()
-                            .background(RoundedRectangle(cornerRadius: 15).fill(Color(.systemBackground)).shadow(color: shadowColor, radius: 5, x: 0, y: 2))
+                            .background(RoundedRectangle(cornerRadius: 15).fill(AppTheme.Colors.commentBackground).shadow(color: shadowColor, radius: 5, x: 0, y: 2))
                             .padding(.vertical, 4)
                         }
                     },
                     label: {
                         HStack {
                             Text("Comments (\(comments.count))")
-                                .font(.headline)
+                                .font(AppTheme.Fonts.title2)
                             Spacer()
                             Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
                                 .resizable()
                                 .frame(width: 13, height: 7)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(AppTheme.Colors.commentDateText)
                         }
                         .padding()
-                        .background(RoundedRectangle(cornerRadius: 15).fill(Color(.systemBackground)).shadow(color: shadowColor, radius: 5, x: 0, y: 2))  // Made corner radius consistent
+                        .background(RoundedRectangle(cornerRadius: 15).fill(AppTheme.Colors.commentBackground).shadow(color: shadowColor, radius: 5, x: 0, y: 2))  // Made corner radius consistent
                     }
                 )
             }
-            .background(Color(.systemBackground))
+            .background(AppTheme.Colors.background(for: colorScheme))
             .cornerRadius(15)
             .padding()
             .onTapGesture {
@@ -197,13 +184,9 @@ struct ContactDetailsView: View {
     @Environment(\.colorScheme) var colorScheme
     @State var mapRegion: MKCoordinateRegion
     
+    // Define shadowColor using AppTheme
     var shadowColor: Color {
-        switch colorScheme {
-        case .dark:
-            return Color.white.opacity(0.05)
-        default:
-            return Color.black.opacity(0.07)
-        }
+        return AppTheme.Colors.shadowColor(for: colorScheme)
     }
 
     init(location: Location) {
@@ -219,17 +202,17 @@ struct ContactDetailsView: View {
             VStack(spacing: 20) {
                 // Displaying the contact's name
                 Text("\(location.vorname) \(location.name)")
-                    .font(.largeTitle)
+                    .font(AppTheme.Fonts.title1) // Use AppTheme font
                     .fontWeight(.medium)
-                    .padding(.top, 20)
+                    .padding(.top, AppTheme.Padding.standard) // Use AppTheme padding
 
                 // Actionable buttons for calling, mailing, and directions
-                HStack(spacing: 40) {
+                HStack(spacing: AppTheme.Padding.large) { // Use AppTheme padding
                     Button(action: {
                         callNumber(telefon: location.telefon)
                     }) {
                         VStack {
-                            Image(systemName: "phone.fill")
+                            Image(systemName: AppTheme.Icons.phoneFill) // Use AppTheme icon
                             Text("Call")
                         }
                     }
@@ -238,7 +221,7 @@ struct ContactDetailsView: View {
                         sendEmail(email: location.email)
                     }) {
                         VStack {
-                            Image(systemName: "envelope.fill")
+                            Image(systemName: AppTheme.Icons.envelopeFill) // Use AppTheme icon
                             Text("Mail")
                         }
                     }
@@ -247,13 +230,13 @@ struct ContactDetailsView: View {
                         openMaps(for: location)
                     }) {
                         VStack {
-                            Image(systemName: "arrow.right.arrow.left.circle.fill")
+                            Image(systemName: AppTheme.Icons.arrowRightArrowLeftCircleFill) // Use AppTheme icon
                             Text("Directions")
                         }
                     }
                 }
-                .font(.headline)
-                .padding(.bottom, 10)
+                .font(AppTheme.Fonts.headline) // Use AppTheme font
+                .padding(.bottom, AppTheme.Padding.bottomSmall) // Use AppTheme padding
 
                 // Contact's details
                 Group {
@@ -263,40 +246,37 @@ struct ContactDetailsView: View {
                     InformationRow(icon: "envelope.fill", text: location.email)
                     InformationRow(icon: "doc.plaintext.fill", text: location.projektstatus)
                 }
-                .background(Color(.systemBackground))
-                .cornerRadius(10)
+                .background(AppTheme.Colors.listBackground(for: colorScheme)) // Use AppTheme color
+                .cornerRadius(AppTheme.Padding.standard) // Use AppTheme padding
                 .shadow(color: shadowColor, radius: 5, x: 0, y: 2)
-                .padding(.bottom, 10)
 
                 Button(action: {
                     openMaps(for: location)
                 }) {
                     Map(coordinateRegion: $mapRegion, annotationItems: [location]) { location in
-                        MapPin(coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude), tint: .blue)
+                        MapPin(coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude), tint: AppTheme.Colors.buttonBlue(for: colorScheme)) // Use AppTheme color
                     }
                     .frame(height: 150)
-                    .cornerRadius(10)
+                    .cornerRadius(AppTheme.Padding.standard) // Use AppTheme padding
                     .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
                     .overlay(
-                        RoundedRectangle(cornerRadius: 10)
+                        RoundedRectangle(cornerRadius: AppTheme.Padding.standard) // Use AppTheme padding
                             .stroke(Color.gray.opacity(0.2), lineWidth: 1)
                             .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 2)
                     )
                 }
-                .padding(.bottom, 10)
+                .padding(.bottom, AppTheme.Padding.bottomSmall) // Use AppTheme padding
+
                 CommentSection(comments: location.comments)
-                            .background(Color(.systemBackground))
-                            .cornerRadius(10)
-                            .shadow(color: shadowColor, radius: 5, x: 0, y: 2)
-                            .padding(.bottom, 20)
+                    .background(AppTheme.Colors.commentBackground) // Use AppTheme color
+                    .cornerRadius(AppTheme.Padding.standard) // Use AppTheme padding
+                    .shadow(color: shadowColor, radius: 5, x: 0, y: 2)
+                    .padding(.bottom, AppTheme.Padding.large) // Use AppTheme padding
             }
-            .padding(10)
+            .padding(AppTheme.Padding.standard) // Use AppTheme padding
         }
         .navigationBarTitle(location.name, displayMode: .inline)
     }
-
-
-
 
 
     // Extracted for reuse
@@ -304,29 +284,27 @@ struct ContactDetailsView: View {
         HStack {
             Image(systemName: icon)
             Text(title)
+                .font(AppTheme.Fonts.body)
         }
         .padding()
-        .background(backgroundViewColor)
         .cornerRadius(10)
-        .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
-        .frame(maxWidth: .infinity, alignment: .leading) // Makes it full width
+        .shadow(color: AppTheme.Colors.shadowColor(for: colorScheme), radius: 5, x: 0, y: 2)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
+
 
     var backgroundColor: Color {
-        return colorScheme == .dark ? Color(UIColor.systemBackground) : Color.white
+        return AppTheme.Colors.background(for: colorScheme)
     }
-
-    var backgroundViewColor: Color {
-        return Color.red
-    }
-
 
     var scrollViewBackgroundColor: Color {
-        return colorScheme == .dark ? Color(UIColor.systemBackground) : Color.white
+        return AppTheme.Colors.scrollViewBackground(for: colorScheme)
     }
 
     var textColor: Color {
-        return colorScheme == .dark ? Color.white : Color.primary
+        return AppTheme.Colors.textColor(for: colorScheme)
+    }
+
     }
     func openMaps(for location: Location) {
         let addressString = "\(location.straße) \(location.hausnummer), \(location.plz) \(location.stadt)"
@@ -347,7 +325,6 @@ struct ContactDetailsView: View {
             }
         }
     }
-}
 
 struct InformationRow: View {
     let icon: String
@@ -356,14 +333,16 @@ struct InformationRow: View {
     var body: some View {
         HStack {
             Image(systemName: icon)
-                .padding(.leading, 10)
+                .padding(.leading, AppTheme.Padding.standard)
             Text(text)
-                .padding(.trailing, 10)
+                .font(AppTheme.Fonts.body)
+                .padding(.trailing, AppTheme.Padding.standard)
             Spacer()
         }
-        .padding(.vertical, 5)  // Reduced vertical padding
+        .padding(.vertical, AppTheme.Padding.bottomSmall)
     }
 }
+
 
 
 struct ContactView_Previews: PreviewProvider {
