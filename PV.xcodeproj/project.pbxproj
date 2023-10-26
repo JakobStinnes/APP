@@ -17,6 +17,7 @@
 		2338388E2AE1587400751FDD /* PVUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2338388D2AE1587400751FDD /* PVUITestsLaunchTests.swift */; };
 		2338389D2AE16DD500751FDD /* Locations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2338389C2AE16DD500751FDD /* Locations.swift */; };
 		2338389F2AE16E0300751FDD /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2338389E2AE16E0300751FDD /* Location.swift */; };
+		2346483F2AEA604D00F8910B /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2346483E2AEA604D00F8910B /* LoginView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		2338388D2AE1587400751FDD /* PVUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		2338389C2AE16DD500751FDD /* Locations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locations.swift; sourceTree = "<group>"; };
 		2338389E2AE16E0300751FDD /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		2346483E2AEA604D00F8910B /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				233838702AE1587300751FDD /* PVApp.swift */,
+				2346483E2AEA604D00F8910B /* LoginView.swift */,
 				23178F852AE1D6B60052F97F /* WorldView.swift */,
 				233838722AE1587300751FDD /* ContentView.swift */,
 				2338389C2AE16DD500751FDD /* Locations.swift */,
@@ -266,6 +269,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2346483F2AEA604D00F8910B /* LoginView.swift in Sources */,
 				2338389D2AE16DD500751FDD /* Locations.swift in Sources */,
 				233838732AE1587300751FDD /* ContentView.swift in Sources */,
 				23178F862AE1D6B60052F97F /* WorldView.swift in Sources */,

@@ -10,26 +10,32 @@ import SwiftUI
 @main
 struct PVApp: App {
     @StateObject private var locations = Locations()
+    @State private var isAuthenticated = false  // State for authentication
     
     var body: some Scene {
         WindowGroup {
-            TabView {
-                NavigationView {
-                    ContentView(locations: locations)
+            if isAuthenticated {
+                TabView {
+                    NavigationView {
+                        ContentView(locations: locations)
+                    }
+                    .tabItem {
+                        Label("Contacts", systemImage: "person.crop.circle.fill")
+                    }
+                    NavigationView {
+                        WorldView()
+                    }
+                    .tabItem {
+                        Label("Map", systemImage: "map.fill")
+                    }
                 }
-                .tabItem {
-                    Label("Contacts", systemImage: "person.crop.circle.fill")
-                }
-                NavigationView {
-                    WorldView()
-                }
-                .tabItem {
-                    Label("Map", systemImage: "map.fill")
-                }
+                .environmentObject(locations)
+            } else {
+                LoginView(isAuthenticated: $isAuthenticated)
             }
-            .environmentObject(locations)
         }
     }
 }
+
 
 

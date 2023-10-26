@@ -22,8 +22,13 @@ class Locations: ObservableObject {
         guard let url = URL(string: "http://192.168.178.86:8007/api/contacts/") else {
             fatalError("Invalid API URL")
         }
+        
+        var request = URLRequest(url: url)
+        if let token = UserDefaults.standard.string(forKey: "userToken") {
+            request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
+        }
 
-        URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
+        URLSession.shared.dataTask(with: request) { [weak self] (data, response, error) in
             guard let data = data else {
                 fatalError("Failed to fetch data: \(error?.localizedDescription ?? "")")
             }
