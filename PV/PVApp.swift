@@ -17,13 +17,13 @@ struct PVApp: App {
             if isAuthenticated {
                 TabView {
                     NavigationView {
-                        ContentView(locations: locations)
+                        ContactView(locations: locations)
                     }
                     .tabItem {
                         Label("Contacts", systemImage: "person.crop.circle.fill")
                     }
                     NavigationView {
-                        WorldView()
+                        MapView()
                     }
                     .tabItem {
                         Label("Map", systemImage: "map.fill")

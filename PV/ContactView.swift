@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  ContactView.swift
 //  PV
 //
 //  Created by Jakob Stinnes on 19.10.23.
@@ -9,7 +9,7 @@ import SwiftUI
 import MapKit
 
 
-struct ContentView: View {
+struct ContactView: View {
     @ObservedObject var locations: Locations
     @State private var searchText: String = ""
     @Environment(\.colorScheme) var colorScheme
@@ -93,11 +93,11 @@ struct ContentView: View {
     }
 
     var listBackgroundColor: Color {
-        return colorScheme == .dark ? Color(UIColor.systemGroupedBackground) : Color.white
+        return colorScheme == .dark ? Color(UIColor.systemBackground) : Color.white
     }
 
     var scrollViewBackgroundColor: Color {
-        return colorScheme == .dark ? Color(UIColor.systemGroupedBackground) : Color.white
+        return colorScheme == .dark ? Color(UIColor.systemBackground) : Color.white
     }
 }
 
@@ -317,11 +317,12 @@ struct ContactDetailsView: View {
     }
 
     var backgroundViewColor: Color {
-        return colorScheme == .dark ? Color.gray.opacity(0.1) : Color.gray.opacity(0.3)
+        return Color.red
     }
 
+
     var scrollViewBackgroundColor: Color {
-        return colorScheme == .dark ? Color(UIColor.systemGroupedBackground) : Color.white
+        return colorScheme == .dark ? Color(UIColor.systemBackground) : Color.white
     }
 
     var textColor: Color {
@@ -365,8 +366,8 @@ struct InformationRow: View {
 }
 
 
-struct ContentView_Previews: PreviewProvider {
+struct ContactView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(locations: Locations())
+        ContactView(locations: Locations())
     }
 }

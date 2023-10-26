@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		23178F862AE1D6B60052F97F /* WorldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23178F852AE1D6B60052F97F /* WorldView.swift */; };
+		23178F862AE1D6B60052F97F /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23178F852AE1D6B60052F97F /* MapView.swift */; };
 		233838712AE1587300751FDD /* PVApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233838702AE1587300751FDD /* PVApp.swift */; };
-		233838732AE1587300751FDD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233838722AE1587300751FDD /* ContentView.swift */; };
+		233838732AE1587300751FDD /* ContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233838722AE1587300751FDD /* ContactView.swift */; };
 		233838752AE1587400751FDD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 233838742AE1587400751FDD /* Assets.xcassets */; };
 		233838782AE1587400751FDD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 233838772AE1587400751FDD /* Preview Assets.xcassets */; };
 		233838822AE1587400751FDD /* PVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233838812AE1587400751FDD /* PVTests.swift */; };
@@ -38,10 +38,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		23178F852AE1D6B60052F97F /* WorldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldView.swift; sourceTree = "<group>"; };
+		23178F852AE1D6B60052F97F /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		2338386D2AE1587300751FDD /* PV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		233838702AE1587300751FDD /* PVApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVApp.swift; sourceTree = "<group>"; };
-		233838722AE1587300751FDD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		233838722AE1587300751FDD /* ContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactView.swift; sourceTree = "<group>"; };
 		233838742AE1587400751FDD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		233838772AE1587400751FDD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2338387D2AE1587400751FDD /* PVTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PVTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,8 +104,8 @@
 			children = (
 				233838702AE1587300751FDD /* PVApp.swift */,
 				2346483E2AEA604D00F8910B /* LoginView.swift */,
-				23178F852AE1D6B60052F97F /* WorldView.swift */,
-				233838722AE1587300751FDD /* ContentView.swift */,
+				23178F852AE1D6B60052F97F /* MapView.swift */,
+				233838722AE1587300751FDD /* ContactView.swift */,
 				2338389C2AE16DD500751FDD /* Locations.swift */,
 				233838742AE1587400751FDD /* Assets.xcassets */,
 				2338389E2AE16E0300751FDD /* Location.swift */,
@@ -271,8 +271,8 @@
 			files = (
 				2346483F2AEA604D00F8910B /* LoginView.swift in Sources */,
 				2338389D2AE16DD500751FDD /* Locations.swift in Sources */,
-				233838732AE1587300751FDD /* ContentView.swift in Sources */,
-				23178F862AE1D6B60052F97F /* WorldView.swift in Sources */,
+				233838732AE1587300751FDD /* ContactView.swift in Sources */,
+				23178F862AE1D6B60052F97F /* MapView.swift in Sources */,
 				2338389F2AE16E0300751FDD /* Location.swift in Sources */,
 				233838712AE1587300751FDD /* PVApp.swift in Sources */,
 			);

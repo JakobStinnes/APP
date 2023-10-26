@@ -1,5 +1,5 @@
 //
-//  WorldView.swift
+//  MapView.swift
 //  PV
 //
 //  Created by Jakob Stinnes on 19.10.23.
@@ -9,7 +9,7 @@ import Foundation
 import MapKit
 import SwiftUI
 
-struct WorldView: View {
+struct MapView: View {
     @EnvironmentObject var locations: Locations
     @State var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 53.5511, longitude: 9.9937), // Centered on Hamburg, Germany
@@ -64,10 +64,10 @@ struct WorldView: View {
 }
 
 
-struct WorldView_Previews: PreviewProvider {
+struct MapView_Previews: PreviewProvider {
     static var previews: some View {
         let locations = Locations()
-        return WorldView()
+        return MapView()
             .environmentObject(locations)
     }
 }

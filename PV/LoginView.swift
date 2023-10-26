@@ -70,7 +70,8 @@ struct LoginView: View {
 
                 Spacer()
             }
-            .background(Color(.systemBackground))  // Use the system background color which adapts to light/dark mode
+            .background(Color(.systemBackground))
+            // Use the system background color which adapts to light/dark mode
         }
     }
 
