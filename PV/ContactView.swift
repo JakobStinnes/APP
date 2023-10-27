@@ -23,17 +23,17 @@ struct ContactView: View {
     }
 
     var body: some View {
-        VStack(spacing: 30) {
+        VStack(spacing: AppTheme.Padding.standard) {
             // Top bar with Logo and Title
             ZStack {
                 Text("Contacts")
-                    .font(.title2)
+                    .font(AppTheme.Fonts.title2)
                     .fontWeight(.semibold)
                     .frame(maxWidth: .infinity)
-                    .foregroundColor(Color.primary)
+                    .foregroundColor(AppTheme.Colors.textColor(for: colorScheme))
 
                 HStack {
-                    Image("logo")
+                    Image(AppTheme.Icons.logo)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 30, height: 30)
@@ -41,65 +41,49 @@ struct ContactView: View {
                     Button(action: {
                         // Implement your add contact action here
                     }) {
-                        Image(systemName: "plus")
-                            .foregroundColor(Color.primary)
+                        Image(systemName: AppTheme.Icons.plus)
+                            .foregroundColor(AppTheme.Colors.textColor(for: colorScheme))
                     }
                 }
-                .padding(.horizontal, 30)
+                .padding(.horizontal, AppTheme.Padding.large)
             }
-            .padding(.top, 60)
+            .padding(.top, AppTheme.Padding.topLarge)
 
             // Contacts list
             ScrollView {
                 // Search bar
                 TextField("Search by name...", text: $searchText)
-                    .padding(10)
-                    .background(searchBarBackgroundColor)
+                    .padding(AppTheme.Padding.standard)
+                    .background(AppTheme.Colors.searchBarBackground(for: colorScheme))
                     .cornerRadius(10)
-                    .padding(.horizontal, 15)
-                    .padding(.bottom, 5)
+                    .padding(.horizontal, AppTheme.Padding.standard)
+                    .padding(.bottom, AppTheme.Padding.bottomSmall)
 
                 LazyVStack(spacing: 0) {
                     ForEach(filteredLocations) { location in
                         NavigationLink(destination: ContactDetailsView(location: location)) {
                             HStack {
                                 Text("\(location.vorname) \(location.name)")
-                                    .font(.system(size: 17))
-                                    .foregroundColor(Color.primary)
+                                    .font(AppTheme.Fonts.body)
+                                    .foregroundColor(AppTheme.Colors.textColor(for: colorScheme))
                                 Spacer()
                             }
-                            .padding(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
+                            .padding(EdgeInsets(top: 10, leading: AppTheme.Padding.standard, bottom: 10, trailing: AppTheme.Padding.standard))
                         }
                         Divider()
                     }
                 }
-                .background(listBackgroundColor)
+                .background(AppTheme.Colors.listBackground(for: colorScheme))
             }
-            .background(scrollViewBackgroundColor)
+            .background(AppTheme.Colors.scrollViewBackground(for: colorScheme))
         }
-        .background(backgroundColor)
-        .padding(.top, 10)
+        .background(AppTheme.Colors.background(for: colorScheme))
+        .padding(.top, AppTheme.Padding.standard)
         .edgesIgnoringSafeArea(.top)
         .navigationBarHidden(true)
     }
-
-    // Define background colors based on the color scheme
-    var backgroundColor: Color {
-        return colorScheme == .dark ? Color(UIColor.systemBackground) : Color.white
-    }
-
-    var searchBarBackgroundColor: Color {
-        return colorScheme == .dark ? Color(UIColor.systemGray6) : Color(UIColor.systemGray6)
-    }
-
-    var listBackgroundColor: Color {
-        return colorScheme == .dark ? Color(UIColor.systemGroupedBackground) : Color.white
-    }
-
-    var scrollViewBackgroundColor: Color {
-        return colorScheme == .dark ? Color(UIColor.systemGroupedBackground) : Color.white
-    }
 }
+
 
 struct CommentSection: View {
     let comments: [Comment]

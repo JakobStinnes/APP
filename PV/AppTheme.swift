@@ -53,6 +53,10 @@ struct AppTheme {
         static func buttonBlue(for colorScheme: ColorScheme) -> Color {
             return Color.blue
         }
+        static func textColor(for colorScheme: ColorScheme) -> Color {
+                    return colorScheme == .dark ? Color.white : Color.primary
+        }
+        
         static let commentBackground = Color(.systemBackground)
         static let commentAuthorText = Color.blue
         static let commentContentText = Color.primary
@@ -60,9 +64,7 @@ struct AppTheme {
         static func commentShadow(for colorScheme: ColorScheme) -> Color {
             return colorScheme == .dark ? Color.white.opacity(0.05) : Color.black.opacity(0.07)
         }
-        static func textColor(for colorScheme: ColorScheme) -> Color {
-                    return colorScheme == .dark ? Color.white : Color.primary
-        }
+        
     }
 
     struct Icons {
