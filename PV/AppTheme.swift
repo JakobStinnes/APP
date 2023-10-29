@@ -83,7 +83,7 @@ struct AppTheme {
             guard let date = inputFormatter.date(from: dateString) else { return nil }
 
             let outputFormatter = DateFormatter()
-            outputFormatter.dateFormat = "dd.MM.yy, HH:mm 'h'"
+            outputFormatter.dateFormat = "dd.MM.yy, HH:mm 'Uhr'"
 
             return outputFormatter.string(from: date)
         }

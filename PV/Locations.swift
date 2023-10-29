@@ -19,7 +19,7 @@ class Locations: ObservableObject {
     }
 
     func fetchData() {
-        guard let url = URL(string: "http://192.168.178.24:8007/api/contacts/") else {
+        guard let url = URL(string: "http://192.168.178.86:8007/api/contacts/") else {
             fatalError("Invalid API URL")
         }
         

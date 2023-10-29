@@ -78,7 +78,7 @@ struct LoginView: View {
 
     
     func loginUser() {
-        let loginURL = URL(string: "http://192.168.178.24:8007/api/login/")!
+        let loginURL = URL(string: "http://192.168.178.86:8007/api/login/")!
         
         var request = URLRequest(url: loginURL)
         request.httpMethod = "POST"
