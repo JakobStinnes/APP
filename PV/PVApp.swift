@@ -10,11 +10,13 @@ import SwiftUI
 @main
 struct PVApp: App {
     @StateObject private var locations = Locations()
-    @State private var isAuthenticated = false  // State for authentication
+    @AppStorage("userToken") var userToken: String? // Using AppStorage to listen to UserDefaults changes
     
     var body: some Scene {
         WindowGroup {
-            if isAuthenticated {
+            if userToken == nil {
+                LoginForm(token: $userToken, locations: locations)  // Pass the locations object
+            } else {
                 TabView {
                     NavigationView {
                         ContactView(locations: locations)
@@ -30,12 +32,7 @@ struct PVApp: App {
                     }
                 }
                 .environmentObject(locations)
-            } else {
-                LoginView(isAuthenticated: $isAuthenticated)
             }
         }
     }
 }
-
-
-

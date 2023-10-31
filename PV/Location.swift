@@ -21,23 +21,6 @@ struct Location: Codable, Identifiable {
     let longitude: Double
     let projektstatus: String
     let comments: [Comment]
-    
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case vorname
-        case name
-        case straße
-        case hausnummer
-        case plz
-        case stadt
-        case email
-        case telefon
-        case latitude
-        case longitude
-        case projektstatus
-        case comments
-    }
 }
 
 struct Comment: Codable, Identifiable {

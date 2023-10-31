@@ -9,30 +9,42 @@ import Foundation
 
 class Locations: ObservableObject {
     @Published var places: [Location] = []
-
+    
     var primary: Location {
         places[0]
     }
-
+    
     init() {
         fetchData()
     }
-
+    
     func fetchData() {
-        guard let url = URL(string: "http://192.168.178.86:8007/api/contacts/") else {
-            fatalError("Invalid API URL")
+        guard let url = URL(string: "http://192.168.178.24:8007/api/contacts/") else {
+            print("Invalid API URL")
+            return
         }
         
         var request = URLRequest(url: url)
-        if let token = UserDefaults.standard.string(forKey: "userToken") {
-            request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
+        
+        // Check if token exists in UserDefaults
+        if let userToken = UserDefaults.standard.string(forKey: "userToken") {
+            request.addValue("Token \(userToken)", forHTTPHeaderField: "Authorization")
+        } else {
+            print("User is not logged in or token is missing")
+            return
         }
-
+        
         URLSession.shared.dataTask(with: request) { [weak self] (data, response, error) in
-            guard let data = data else {
-                fatalError("Failed to fetch data: \(error?.localizedDescription ?? "")")
+            if let error = error {
+                print("Failed to fetch data:", error.localizedDescription)
+                return
             }
-
+            
+            guard let data = data else {
+                print("Data is nil")
+                return
+            }
+            
             do {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -41,7 +53,7 @@ class Locations: ObservableObject {
                     self?.places = decodedData
                 }
             } catch {
-                fatalError("Failed to decode data: \(error.localizedDescription)")
+                print("Failed to decode data:", error.localizedDescription)
             }
         }.resume()
     }
