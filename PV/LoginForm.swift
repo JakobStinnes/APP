@@ -14,6 +14,9 @@ struct LoginForm: View {
     @Binding var token: String?
     @ObservedObject var locations: Locations  // Accept the locations object
 
+    // Create an instance of NetworkManager
+    private let networkManager = NetworkManager()
+
     var body: some View {
         NavigationView {
             VStack(spacing: AppTheme.Padding.standard) {
@@ -61,27 +64,19 @@ struct LoginForm: View {
     }
 
     func loginUser() {
-        let url = URL(string: "http://192.168.178.24:8007/api/login/")!
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        let bodyData = "username=\(username)&password=\(password)&otp_token=\(otpToken)"
-        request.httpBody = bodyData.data(using: .utf8)
-        
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let data = data, let tokenResponse = try? JSONDecoder().decode(TokenResponse.self, from: data) {
-                DispatchQueue.main.async {
-                    self.token = tokenResponse.token
-                    UserDefaults.standard.set(tokenResponse.token, forKey: "userToken")
+        networkManager.loginUser(username: username, password: password, otpToken: otpToken) { receivedToken in
+            DispatchQueue.main.async {
+                if let receivedToken = receivedToken {
+                    self.token = receivedToken
+                    UserDefaults.standard.set(receivedToken, forKey: "userToken")
                     
                     // Fetch data after successful login
                     self.locations.fetchData()
+                } else {
+                    print("Failed to log in")
                 }
-            } else {
-                print("Failed to log in")
             }
-        }.resume()
+        }
     }
 }
 
