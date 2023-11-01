@@ -27,5 +27,6 @@ struct Comment: Codable, Identifiable {
     let id: Int
     let content: String
     let author: Int
+    let authorname: String
     let created: String
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 struct API {
-    static let baseURL = "http://192.168.178.24:8007/api/"
+    static let baseURL = "http://192.168.178.86:8007/api/"
     static let contactsEndpoint = "\(baseURL)contacts/"
     static let loginEndpoint = "\(baseURL)login/"
 }

@@ -98,11 +98,6 @@ struct CommentSection: View {
             return AppTheme.Colors.shadowColor(for: .light)
         }
     }
-    
-    let authorDictionary: [Int: String] = [
-        1: "Jakob Stinnes",
-        2: "Jakob Moecke",
-    ]
 
     var body: some View {
             VStack(alignment: .leading) {
@@ -111,13 +106,11 @@ struct CommentSection: View {
                     content: {
                         ForEach(comments) { comment in
                             VStack(alignment: .leading, spacing: AppTheme.Padding.standard) {
-                                if let authorName = authorDictionary[comment.author] {
-                                    Text(authorName)
+                                Text(comment.authorname)
                                         .font(AppTheme.Fonts.commentAuthor)
                                         .foregroundColor(AppTheme.Colors.commentAuthorText)
                                         .fontWeight(.bold)
                                     
-                                }
                                 
                                 Text(comment.content)
                                     .font(AppTheme.Fonts.commentContent)
