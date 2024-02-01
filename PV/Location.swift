@@ -8,20 +8,23 @@
 import Foundation
 
 struct Location: Codable, Identifiable {
-    let id: Int
+    let kundenId: Int // Keep your backend identifier
     let vorname: String
     let name: String
-    let straße: String
+    let strasse: String
     let hausnummer: String
     let plz: String
     let stadt: String
-    let email: String
     let telefon: String
+    let email: String
     let latitude: Double
     let longitude: Double
-    let projektstatus: String
     let comments: [Comment]
+
+    // Computed property to satisfy Identifiable protocol
+    var id: Int { kundenId }
 }
+
 
 struct Comment: Codable, Identifiable {
     let id: Int

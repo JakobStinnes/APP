@@ -7,29 +7,24 @@
 
 import Foundation
 
+import Foundation
+
 class Locations: ObservableObject {
     @Published var places: [Location] = []
-    private var networkManager = NetworkManager()  // Initialize the NetworkManager
-    
-    var primary: Location {
-        places[0]
-    }
+    private var networkManager = NetworkManager()
     
     init() {
         fetchData()
     }
     
     func fetchData() {
-        if let userToken = UserDefaults.standard.string(forKey: UserKeys.userToken) {
-            networkManager.fetchContacts(token: userToken) { [weak self] locations in
-                DispatchQueue.main.async {
-                    if let locations = locations {
-                        self?.places = locations
-                    }
+        networkManager.fetchContacts { [weak self] locations in
+            DispatchQueue.main.async {
+                if let locations = locations {
+                    self?.places = locations
+                    print("Fetched \(locations.count) locations.")
                 }
             }
-        } else {
-            print("User is not logged in or token is missing")
         }
     }
 }

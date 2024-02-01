@@ -217,11 +217,10 @@ struct ContactDetailsView: View {
 
                 // Contact's details
                 Group {
-                    InformationRow(icon: "house.fill", text: "\(location.straße) \(location.hausnummer)")
+                    InformationRow(icon: "house.fill", text: "\(location.strasse) \(location.hausnummer)")
                     InformationRow(icon: "map.fill", text: "\(location.plz) \(location.stadt)")
                     InformationRow(icon: "phone.fill", text: location.telefon)
                     InformationRow(icon: "envelope.fill", text: location.email)
-                    InformationRow(icon: "doc.plaintext.fill", text: location.projektstatus)
                 }
                 .background(AppTheme.Colors.listBackground(for: colorScheme)) // Use AppTheme color
                 .cornerRadius(AppTheme.Padding.standard) // Use AppTheme padding
@@ -284,7 +283,7 @@ struct ContactDetailsView: View {
 
     }
     func openMaps(for location: Location) {
-        let addressString = "\(location.straße) \(location.hausnummer), \(location.plz) \(location.stadt)"
+        let addressString = "\(location.strasse) \(location.hausnummer), \(location.plz) \(location.stadt)"
         let encodedAddress = addressString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         if let directionsURL = URL(string: "http://maps.apple.com/?address=\(encodedAddress)") {
             UIApplication.shared.open(directionsURL, options: [:], completionHandler: nil)

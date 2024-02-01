@@ -8,14 +8,8 @@
 import SwiftUI
 
 struct LoginForm: View {
-    @State private var username: String = ""
-    @State private var password: String = ""
-    @State private var otpToken: String = ""
     @Binding var token: String?
     @ObservedObject var locations: Locations  // Accept the locations object
-
-    // Create an instance of NetworkManager
-    private let networkManager = NetworkManager()
 
     var body: some View {
         NavigationView {
@@ -40,20 +34,8 @@ struct LoginForm: View {
                 }
                 .padding(.top, AppTheme.Padding.topLarge)
                 
-                // Rest of the login form
-                TextField("Username", text: $username)
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(8)
-                SecureField("Password", text: $password)
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(8)
-                TextField("OTP Token", text: $otpToken)
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(8)
-                Button("Login", action: loginUser)
+                // Remove the login form fields and button
+                Button("Fetch Data", action: fetchData)
                     .padding()
                     .background(Color.blue)
                     .foregroundColor(.white)
@@ -63,23 +45,12 @@ struct LoginForm: View {
         }
     }
 
-    func loginUser() {
-        networkManager.loginUser(username: username, password: password, otpToken: otpToken) { receivedToken in
-            DispatchQueue.main.async {
-                if let receivedToken = receivedToken {
-                    self.token = receivedToken
-                    UserDefaults.standard.set(receivedToken, forKey: "userToken")
-                    
-                    // Fetch data after successful login
-                    self.locations.fetchData()
-                } else {
-                    print("Failed to log in")
-                }
-            }
-        }
+    // Modify the loginUser function to fetch data directly
+    func fetchData() {
+        self.token = "SampleToken"  // Set a sample token or leave it as nil
+        UserDefaults.standard.set(self.token, forKey: "userToken")
+        
+        // Fetch data after successful "login" or data retrieval
+        self.locations.fetchData()
     }
-}
-
-struct TokenResponse: Codable {
-    var token: String
 }
